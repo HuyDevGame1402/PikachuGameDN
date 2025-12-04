@@ -41,6 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackgroundCell
+    uniqueID: 336885085
+    locked: 0
+  - name: BackgroundTouched
+    uniqueID: 2662638869
+    locked: 0
+  - name: Icon
+    uniqueID: 3355077143
+    locked: 0
   - name: VFX
     uniqueID: 525630287
     locked: 0

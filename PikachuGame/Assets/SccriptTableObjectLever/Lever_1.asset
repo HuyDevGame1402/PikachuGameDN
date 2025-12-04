@@ -16,3 +16,4 @@ MonoBehaviour:
   Cols: 6
   TypeCount: 10
   PredefinedTiles: 
+  timer: 300
