@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f98001d734265a49b377b10f6547ced, type: 3}
   m_Name: Lever_2
   m_EditorClassIdentifier: 
-  Rows: 4
-  Cols: 4
+  Rows: 10
+  Cols: 10
   TypeCount: 10
   PredefinedTiles: 
   timer: 180
+  score: 40
