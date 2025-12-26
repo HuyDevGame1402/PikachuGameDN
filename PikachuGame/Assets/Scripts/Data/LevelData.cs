@@ -8,4 +8,5 @@ public class LevelData : ScriptableObject
     public int TypeCount; // số loại hình ảnh
     public int[] PredefinedTiles; // có thể để -1 cho ô rỗng, hoặc ID hình
     public float timer;
+    public int score;
 }
