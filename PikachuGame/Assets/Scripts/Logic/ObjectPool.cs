@@ -2,9 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum VfxEnum
+{
+    vfxCell,
+    vfxText,
+}
+
 public class ObjectPool : Singleton<ObjectPool>
 {
-    [SerializeField] private Dictionary<int, List<GameObject>> vfxDic = new Dictionary<int, List<GameObject>>();
+    [SerializeField] private Dictionary<int, List<GameObject>> vfxDicCell = new Dictionary<int, List<GameObject>>();
+
+    [SerializeField] private Dictionary<int , List<GameObject>> vfxDicText = new Dictionary<int , List<GameObject>>();  
 
     protected override void Awake()
     {
@@ -12,7 +21,7 @@ public class ObjectPool : Singleton<ObjectPool>
     }
 
 
-    public void AddVfxDic(int id, GameObject gameObject)
+    public void AddVfxDic(int id, GameObject gameObject, Dictionary<int, List<GameObject>> vfxDic)
     {
         if(vfxDic.ContainsKey(id))
         {
@@ -31,7 +40,7 @@ public class ObjectPool : Singleton<ObjectPool>
         }
     }
 
-    public GameObject GetVfx(int id)
+    public GameObject GetVfx(int id, Dictionary<int, List<GameObject>> vfxDic)
     {
         if (vfxDic.ContainsKey(id))
         {
@@ -54,6 +63,21 @@ public class ObjectPool : Singleton<ObjectPool>
         else
         {
             return null;
+        }
+    }
+
+    public Dictionary<int, List<GameObject>> GetDic(VfxEnum vfxEnum)
+    {
+        switch (vfxEnum)
+        {
+            case VfxEnum.vfxCell:
+                return vfxDicCell;
+
+            case VfxEnum.vfxText:
+                return vfxDicText;
+
+            default:
+                return null;
         }
     }
 
