@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Unity;
 
 public class PikachuGameLogic : Singleton<PikachuGameLogic>
 {
@@ -17,6 +19,7 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
     {
         base.Awake();
         board = GameObject.Find("Board").GetComponent<Board>();
+        GameManager.COMBO += SpawnVfxCombo;
     }
 
     public void SetSelectedCell(Cell cell)
@@ -72,12 +75,15 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
         {
             Debug.Log("true");
             // Khi ăn được, đặt -1 vào matrix gốc
+            GameManager.Instance.SetComboCount();
             ProcessingConnect(rA, rB, cA, cB);
+            GameManager.Instance.AddScoreGame();
         }
         else
         {
             Debug.Log("false");
             HideBackGroundTouch();
+            GameManager.Instance.ResetCombo();
         }
 
         // Reset state
@@ -106,24 +112,41 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
         Destroy(selectedCellA.gameObject);
         Destroy(selectedCellB.gameObject);
         int idVFX = 0;
-
-        SpawnVfx(VFXManager.Instance.GetVFX(idVFX), posCellA, idVFX);
-        SpawnVfx(VFXManager.Instance.GetVFX(idVFX), posCellB, idVFX);
-
+        VfxEnum vfx = VfxEnum.vfxCell;
+        SpawnVfx(VFXManager.Instance.GetVFX(idVFX, vfx), posCellA, idVFX, vfx);
+        SpawnVfx(VFXManager.Instance.GetVFX(idVFX, vfx), posCellB, idVFX, vfx);
     }
 
-    private void SpawnVfx(GameObject vfx, Vector3 pos, int idVFX)
+    private void SpawnVfx(GameObject vfx, Vector3 pos, int idVFX, VfxEnum vfxEnum)
     {
         if (IsPrefab(vfx))
         {
             GameObject vfxInGame = Instantiate(vfx, pos, Quaternion.identity);
-            ObjectPool.Instance.AddVfxDic(idVFX, vfxInGame);
+            ObjectPool.Instance.AddVfxDic(idVFX, vfxInGame,
+                ObjectPool.Instance.GetDic(vfxEnum));
         }
         else
         {
             vfx.transform.position = pos;
             vfx.SetActive(true);
         }
+    }
+
+    private void SpawnVfxCombo()
+    {
+        int idVFX = UnityEngine.Random.Range(0, 6);
+        VfxEnum vfx = VfxEnum.vfxText;
+        Transform transformSpawn = VFXManager.Instance.GetTransformSpawnVfxText();
+        Vector3 positionSpawm;
+        if (transformSpawn != null)
+        {
+            positionSpawm = transformSpawn.position;
+        }
+        else
+        {
+            positionSpawm = Vector3.zero;
+        }
+        SpawnVfx(VFXManager.Instance.GetVFX(idVFX, vfx), positionSpawm, idVFX, vfx);
     }
 
     private bool CanConnect(int[,] matrix, int rA, int cA, int rB, int cB)
