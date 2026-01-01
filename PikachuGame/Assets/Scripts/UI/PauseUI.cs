@@ -7,8 +7,14 @@ public class PauseUI : MonoBehaviour
 {
     [SerializeField] private Transform pauseUI;
     [SerializeField] private ShowGameUI showGameUI;
+
+    [SerializeField] private bool isActiveOnClick = true;
     public void ShowUI()
     {
+        if (!isActiveOnClick)
+        {
+            return;
+        }
         pauseUI.gameObject.SetActive(true);
         GameManager.Instance.SetGameState(GameState.Paused);
         LevelTimeManager.Instance.SetupRunning(false);
@@ -33,5 +39,9 @@ public class PauseUI : MonoBehaviour
     public void LoadGameScene()
     {
         SceneManager.LoadScene("GameLevelMap");
+    }
+    public void SetActiveOnClick(bool active)
+    {
+        isActiveOnClick = active;
     }
 }

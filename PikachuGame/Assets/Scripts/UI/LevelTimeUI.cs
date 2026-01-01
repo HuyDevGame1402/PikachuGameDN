@@ -11,7 +11,7 @@ public class LevelTimeUI : MonoBehaviour
         LevelTimeManager.OnTimeChanged += UpdateTimerUI;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         LevelTimeManager.OnTimeChanged -= UpdateTimerUI;
     }

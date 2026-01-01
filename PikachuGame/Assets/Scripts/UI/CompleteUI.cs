@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Runtime.CompilerServices;
+using UnityEngine.SceneManagement;
 
 public class CompleteUI : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class CompleteUI : MonoBehaviour
     [SerializeField] private Animator animator;
 
     [SerializeField] private ShowGameUI showGameUI;
-
+    [SerializeField] private PauseUI pauseUI;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -63,6 +64,7 @@ public class CompleteUI : MonoBehaviour
     }
     public void WinGameUI()
     {
+        pauseUI.SetActiveOnClick(false);
         GameManager.Instance.SetGameState(GameState.Victory);
         imageTitle.GetComponent<Image>().color = gameWinColor;
         textStateGame.text = "VICTORY";
@@ -74,6 +76,7 @@ public class CompleteUI : MonoBehaviour
     }
     public void LossGameUI()
     {
+        pauseUI.SetActiveOnClick(false);
         GameManager.Instance.SetGameState(GameState.GameOver);
         imageTitle.GetComponent<Image>().color = gameLossColor;
         textStateGame.text = "GAME OVER";
@@ -84,11 +87,17 @@ public class CompleteUI : MonoBehaviour
     }
     public void OnClickNextLevel()
     {
+        pauseUI.SetActiveOnClick(true);
         GameManager.Instance.isNextLevel = true;
         animator.SetTrigger("Hide");
     }
     public void LoadingGame()
     {
+        pauseUI.SetActiveOnClick(true);
         showGameUI.Hide();
+    }
+    public void LoadHome()
+    {
+        SceneManager.LoadScene("GameLevelMap");
     }
 }
