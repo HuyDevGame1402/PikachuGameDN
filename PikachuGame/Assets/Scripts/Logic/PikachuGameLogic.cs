@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Unity;
+using System;
 
 public class PikachuGameLogic : Singleton<PikachuGameLogic>
 {
@@ -15,6 +16,8 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
 
     [SerializeField] private bool isProcessingLogic;
 
+    public static Action WINGAME;
+
     protected override void Awake()
     {
         base.Awake();
@@ -24,6 +27,8 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
 
     public void SetSelectedCell(Cell cell)
     {
+        GameState currentGameState = GameManager.Instance.GetGameState();
+        if (currentGameState != GameState.Playing) return;
         if (cell == null) return;
 
         if(selectedCellA != null && selectedCellA == cell) return;
@@ -78,6 +83,11 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
             GameManager.Instance.SetComboCount();
             ProcessingConnect(rA, rB, cA, cB);
             GameManager.Instance.AddScoreGame();
+
+            if(board.IsBoardEmpty())
+            {
+                WINGAME?.Invoke();
+            }
         }
         else
         {
@@ -190,7 +200,7 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
 
     public bool GetCanConnect(int[,] matrix, int rA, int cA, int rB, int cB)
     {
-        return CanConnect(matrix, rA, cA, rB, cB);
+        return CanConnect(matrix, rA + 1, cA + 1, rB + 1, cB + 1);
     }
 
     public int[,] GetPaddedMatrix(int[,] original)

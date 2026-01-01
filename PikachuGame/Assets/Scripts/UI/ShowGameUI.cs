@@ -11,4 +11,13 @@ public class ShowGameUI : MonoBehaviour
         animator = GetComponent<Animator>();
         animator.SetTrigger("Show");
     }
+
+    public void Hide()
+    {
+        animator.SetTrigger("Hide");
+    }
+    public void LoadGame()
+    {
+        GameManager.Instance.LoadGameLogic();
+    }
 }
