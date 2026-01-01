@@ -48,4 +48,8 @@ public class LevelTimeManager : Singleton<LevelTimeManager>
             OnTimeOut?.Invoke();
         }
     }
+    public void SetupRunning(bool running)
+    {
+        isRunning = running;
+    }
 }

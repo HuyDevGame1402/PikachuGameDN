@@ -22,6 +22,7 @@ public class Cell : MonoBehaviour
         Col = col;
         Id = id;
         spriteRenderer.sprite = sprite;
+        spriteRenderer.enabled = false;
         gameObject.SetActive(Id != -1);
     }
 
@@ -54,5 +55,9 @@ public class Cell : MonoBehaviour
     {
         if (backgorundTouched == null) return;
         backgorundTouched.gameObject.SetActive(false);
+    }
+    public void SetActiveSprite(bool active)
+    {
+        spriteRenderer.enabled = active;
     }
 }

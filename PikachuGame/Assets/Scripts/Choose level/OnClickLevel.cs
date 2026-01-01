@@ -5,6 +5,8 @@ using UnityEngine;
 public class OnClickLevel : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private int level;
+    public int LEVEL => level;
 
     public bool isActive;
 
@@ -16,6 +18,7 @@ public class OnClickLevel : MonoBehaviour
     private void OnMouseDown()
     {
         if (animator == null || !isActive) return;
+        GameObject.Find("GameData").GetComponent<GameData>().SetLevelChoose(level);
         animator.SetTrigger("Hide");
     }
 }

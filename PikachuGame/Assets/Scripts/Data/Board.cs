@@ -37,13 +37,20 @@ public class Board : MonoBehaviour
         Matrix = new int[Rows, Cols];
 
         int total = Rows * Cols;
-        List<int> localList = ListIdInBoard(total, TypeCount);
+        
         // ----- Spawn CellPrefab -----
         float centerOffsetX = (Cols - 1) * offsetCell / 2f;
-
+        checkGameLogic = false;
+        List<int> localList = ListIdInBoard(total, TypeCount);
+        List<int> listId = new List<int>();
         while (!checkGameLogic)
         {
-            List<int> listId = localList;
+            for(int i = 0; i < localList.Count; i++)
+            {
+                listId.Add(localList[i]);
+            }
+            total = Rows * Cols;
+
             groups.Clear();
             ClearMatrix(Rows,Cols);
             for (int r = 0; r < Rows; r++)
@@ -85,7 +92,8 @@ public class Board : MonoBehaviour
             foreach (var group in groups)
             {
                 List<Vector2Int> posList = group.Value;
-
+                Debug.Log(group.Key);
+                
                 if (checkGameLogic) break;
 
                 for (int i = 0; i < posList.Count - 1; i++)
@@ -96,6 +104,7 @@ public class Board : MonoBehaviour
                         {
                             if (!checkGameLogic)
                             {
+                                Debug.Log(i.ToString() + " " +  j.ToString());
                                 Vector2Int posA = posList[i];
                                 Vector2Int posB = posList[j];
                                 checkGameLogic = PikachuGameLogic.Instance.GetCanConnect(matrixPadding,
@@ -105,6 +114,11 @@ public class Board : MonoBehaviour
                     }
                 }
             }
+        }
+        
+        for(int i = 0; i < boardRoot.childCount; i++)
+        {
+            boardRoot.GetChild(i).GetComponent<Cell>().SetActiveSprite(true);
         }
     }
 
@@ -125,6 +139,10 @@ public class Board : MonoBehaviour
             {
                 Matrix[i, j] = -1;
             }
+        }
+        for(int i = 0; i < boardRoot.childCount; i++)
+        {
+            Destroy(boardRoot.GetChild(i).gameObject);
         }
     }
     private List<int> ListIdInBoard(int total, int typeCount)
@@ -154,7 +172,21 @@ public class Board : MonoBehaviour
                 listId.Add(i);
             }
         }
-
         return listId;
+    }
+
+    public bool IsBoardEmpty()
+    {
+        for(int i = 0; i < Rows; i++)
+        {
+            for(int j = 0; j < Cols; j++)
+            {
+                if(Matrix[i, j] != -1)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
