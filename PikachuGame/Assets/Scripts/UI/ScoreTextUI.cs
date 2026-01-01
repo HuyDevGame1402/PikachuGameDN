@@ -11,7 +11,10 @@ public class ScoreTextUI : MonoBehaviour
         GameManager.ONCHANGSCORE += UpdateScoreUiGame;
         scoreText = transform.GetComponent<TextMeshProUGUI>();
     }
-
+    private void OnDestroy()
+    {
+        GameManager.ONCHANGSCORE -= UpdateScoreUiGame;
+    }
     private void UpdateScoreUiGame(int score)
     {
         if (scoreText == null) return;

@@ -50,6 +50,12 @@ public class GameManager : Singleton<GameManager>
         gameState = GameState.Playing;
     }
 
+    private void OnDestroy()
+    {
+        PikachuGameLogic.WINGAME -= WinGameCompleteUI;
+        LevelTimeManager.OnTimeOut -= LossGameCompleteUI;
+    }
+
     private void Start()
     {
         InitGame();
