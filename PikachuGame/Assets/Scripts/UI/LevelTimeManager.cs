@@ -17,7 +17,18 @@ public class LevelTimeManager : Singleton<LevelTimeManager>
     protected override void Awake()
     {
         base.Awake();
+        // Đăng ký sự kiện bắt đầu game
         GameManager.ONSTARTGAME += GetTimer;
+    }
+
+    private void Start()
+    {
+        // Kiểm tra bù: Nếu vì lý do nào đó GameManager đã chạy Start trước 
+        // thì gọi GetTimer thủ công để kích hoạt đồng hồ
+        if (!isRunning && GameManager.Instance != null)
+        {
+            GetTimer();
+        }
     }
 
     private void OnDestroy()
@@ -27,25 +38,44 @@ public class LevelTimeManager : Singleton<LevelTimeManager>
 
     private void GetTimer()
     {
+        // Lấy level hiện tại từ GameManager
         int lever = GameManager.Instance.GetCurrentLever();
-        timer = LeverManager.Instance.GetLever(lever - 1).timer;
-        maxTimer = timer;
-        isRunning = true; 
+
+        // Lấy dữ liệu thời gian từ LeverManager
+        var levelData = LeverManager.Instance.GetLever(lever - 1);
+
+        if (levelData != null)
+        {
+            timer = levelData.timer;
+            maxTimer = timer;
+            isRunning = true;
+            Debug.Log($"Level {lever} started. Timer: {timer}s");
+        }
     }
 
     private void Update()
     {
         if (!isRunning) return;
 
-        timer -= Time.deltaTime;
-        timer = Mathf.Max(0, timer);
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            timer = Mathf.Max(0, timer);
 
-        OnTimeChanged?.Invoke(timer);
-
-        if (timer <= 0)
+            // Gửi dữ liệu cập nhật cho LevelTimeUI
+            OnTimeChanged?.Invoke(timer);
+        }
+        else
         {
             isRunning = false;
             OnTimeOut?.Invoke();
+
+            // TỰ ĐỘNG LƯU ĐIỂM KHI HẾT GIỜ
+            if (GameManager.Instance != null)
+            {
+                Debug.Log("Time's up! Saving score to Firebase...");
+                GameManager.Instance.EndGameAndSaveFirebase();
+            }
         }
     }
 }

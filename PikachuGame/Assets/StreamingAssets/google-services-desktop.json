@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "745301681908",
+    "project_id": "pikachuleaderboard",
+    "storage_bucket": "pikachuleaderboard.firebasedatabase.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745301681908:android:23533412ba1f35d2aba0a1",
+        "android_client_info": {
+          "package_name": "com.yourname.pikachu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-sM9XP04EsDa_qcBuO_iGMS5RJDa6a9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
