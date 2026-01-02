@@ -31,3 +31,9 @@ UpgradeLog.htm
 PikachuGame.apk
 Pikachu Game_BurstDebugInformation_DoNotShip/
 
+
+# Firebase native plugins (large files)
+Assets/Firebase/Plugins/
+Assets/GeneratedLocalRepo/
+
+
