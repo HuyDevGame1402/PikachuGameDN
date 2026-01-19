@@ -306,6 +306,11 @@ MonoBehaviour:
   Id: 0
   spriteRenderer: {fileID: 5043738809083093857}
   backgorundTouched: {fileID: 0}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.9215687, g: 0.627451, b: 0.9333334, a: 1}
+  spriteBackground: {fileID: 3697077352662125873}
+  highlightDuration: 3
+  blinkInterval: 0.25
 --- !u!61 &5673109425714871714
 BoxCollider2D:
   m_ObjectHideFlags: 0

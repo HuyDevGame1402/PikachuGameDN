@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
+using static UnityEngine.UI.Image;
 
 public class Board : MonoBehaviour
 {
@@ -126,7 +127,17 @@ public class Board : MonoBehaviour
     {
         return Matrix;
     }
-
+    public Vector3 GetPositionMatrix(int row, int col)
+    {
+        float centerOffsetX = (Cols - 1) * offsetCell / 2f;
+        float posX = col * offsetCell - centerOffsetX;
+        float posY = startPosy - row * offsetCell;
+        return new Vector3(posX, posY, 0);
+    }
+    public void SetIdInMatrix(int row, int col, int id)
+    {
+        Matrix[row, col] = id;
+    }
     public void SetCellEmpty(int row, int col)
     {
         Matrix[row, col] = -1;
@@ -188,5 +199,29 @@ public class Board : MonoBehaviour
             }
         }
         return true;
+    }
+    public void DebugBoard()
+    {
+        int rows = Matrix.GetLength(0);
+        int cols = Matrix.GetLength(1);
+        for(int  i = 0; i < rows; i++)
+        {
+            for (int j = 0;j < cols; j++)
+            {
+                Debug.Log(Matrix[i, j]);
+            }
+        }
+    }
+    public Transform GetCellId(Transform cellOld, int id)
+    {
+        for(int i = 0; i < boardRoot.childCount; i++)
+        {
+            if(boardRoot.GetChild(i) != cellOld && 
+                boardRoot.GetChild(i).GetComponent<Cell>().GetId() == id)
+            {
+                return boardRoot.GetChild(i);
+            }
+        }
+        return null;
     }
 }

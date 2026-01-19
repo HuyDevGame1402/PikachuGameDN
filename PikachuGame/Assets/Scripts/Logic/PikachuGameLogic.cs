@@ -17,6 +17,7 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
     [SerializeField] private bool isProcessingLogic;
 
     public static Action WINGAME;
+    public static Action<int, int, CandyType> STARTLOGICCANDY;
 
     protected override void Awake()
     {
@@ -57,6 +58,7 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
 
     private void LogicGame(Cell cellA, Cell cellB)
     {
+        //board.DebugBoard();
         if (cellA.GetId() != cellB.GetId())
         {
             Debug.Log("false");
@@ -84,7 +86,49 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
             ProcessingConnect(rA, rB, cA, cB);
             GameManager.Instance.AddScoreGame();
 
-            if(board.IsBoardEmpty())
+            // Horizontal
+            if (GameManager.Instance != null &&
+                GameManager.Instance.GetCandyType() == CandyType.Horizontal)
+            {
+                if(rA - 1 == rB - 1)
+                {
+                    if(cA - 1 < cB - 1)
+                    { 
+                        STARTLOGICCANDY?.Invoke(rA - 1, cA - 1, GameManager.Instance.GetCandyType());
+                    }
+                    else
+                    {
+                        STARTLOGICCANDY?.Invoke(rB - 1, cB - 1, GameManager.Instance.GetCandyType());
+                    }
+                }
+                else
+                {
+                    STARTLOGICCANDY?.Invoke(rA - 1, cA - 1, GameManager.Instance.GetCandyType());
+                    STARTLOGICCANDY?.Invoke(rB - 1, cB - 1, GameManager.Instance.GetCandyType());
+                }
+            }
+            else if (GameManager.Instance != null &&
+                GameManager.Instance.GetCandyType() == CandyType.Vertical)
+            {
+                if(cA - 1 == cB - 1)
+                {
+                    if(rA - 1 > rB - 1)
+                    {
+                        STARTLOGICCANDY?.Invoke(rA - 1, cA - 1, GameManager.Instance.GetCandyType());
+                    }
+                    else
+                    {
+                        STARTLOGICCANDY?.Invoke(rB - 1, cB - 1, GameManager.Instance.GetCandyType());
+                    }
+                }
+                else
+                {
+                    STARTLOGICCANDY?.Invoke(rA - 1, cA - 1, GameManager.Instance.GetCandyType());
+                    STARTLOGICCANDY?.Invoke(rB - 1, cB - 1, GameManager.Instance.GetCandyType());
+                }
+            }
+
+            if (board.IsBoardEmpty())
             {
                 WINGAME?.Invoke();
             }
@@ -100,6 +144,8 @@ public class PikachuGameLogic : Singleton<PikachuGameLogic>
         ResetSelectedCell();
         isProcessingLogic = false;
     }
+
+
 
     private void HideBackGroundTouch()
     {

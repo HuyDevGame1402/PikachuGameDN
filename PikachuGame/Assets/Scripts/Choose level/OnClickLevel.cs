@@ -18,6 +18,7 @@ public class OnClickLevel : MonoBehaviour
     private void OnMouseDown()
     {
         if (animator == null || !isActive) return;
+        SoundManager.Instance.PlayOnClickLevel();
         GameObject.Find("GameData").GetComponent<GameData>().SetLevelChoose(level);
         animator.SetTrigger("Hide");
     }
