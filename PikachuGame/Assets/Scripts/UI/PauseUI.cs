@@ -18,12 +18,20 @@ public class PauseUI : MonoBehaviour
         pauseUI.gameObject.SetActive(true);
         GameManager.Instance.SetGameState(GameState.Paused);
         LevelTimeManager.Instance.SetupRunning(false);
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayOnClickButton();
+        }
     }
     public void HideUI()
     {
         pauseUI.gameObject.SetActive(false);
         GameManager.Instance.SetGameState(GameState.Playing);
         LevelTimeManager.Instance.SetupRunning(true);
+        if(SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayOnClickButton();
+        }
     }
 
     public void NewGame()
@@ -31,10 +39,18 @@ public class PauseUI : MonoBehaviour
         GameManager.Instance.isNextLevel = false;
         HideUI();
         showGameUI.Hide();
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayOnClickButton();
+        }
     }
     public void QuitGame()
     {
         LoadGameScene();
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayOnClickButton();
+        }
     }
     public void LoadGameScene()
     {

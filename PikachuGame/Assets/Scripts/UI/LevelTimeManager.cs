@@ -20,6 +20,12 @@ public class LevelTimeManager : Singleton<LevelTimeManager>
         GameManager.ONSTARTGAME += GetTimer;
     }
 
+    public void SetTimer(float timer)
+    {
+        if(timer > maxTimer) timer = maxTimer;
+        this.timer = timer;
+    }
+
     private void OnDestroy()
     {
         GameManager.ONSTARTGAME -= GetTimer;
@@ -45,6 +51,7 @@ public class LevelTimeManager : Singleton<LevelTimeManager>
         if (timer <= 0)
         {
             isRunning = false;
+            Debug.Log("Het time");
             OnTimeOut?.Invoke();
         }
     }

@@ -11,7 +11,8 @@ public class CompleteUI : MonoBehaviour
 {
     [SerializeField] private Transform mainUI;
     [SerializeField] private int currentStar = 0;
-    [SerializeField] List<Animator> animatorsStar = new List<Animator>();
+    [SerializeField] private List<Animator> animatorsStar = new List<Animator>();
+    [SerializeField] private List<GameObject> stars = new List<GameObject>();
     [SerializeField] private ScoreText scoreText;
     [SerializeField] private TextMeshProUGUI textStateGame;
     [SerializeField] private Transform imageTitle;
@@ -21,10 +22,12 @@ public class CompleteUI : MonoBehaviour
 
     [SerializeField] private ShowGameUI showGameUI;
     [SerializeField] private PauseUI pauseUI;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
     }
+
     public void ShowUI()
     {
         for (int i = 0; i < currentStar; i++)
@@ -69,8 +72,9 @@ public class CompleteUI : MonoBehaviour
         imageTitle.GetComponent<Image>().color = gameWinColor;
         textStateGame.text = "VICTORY";
         LevelTimeManager.Instance.SetupRunning(false);
-        ShowCompleteUIGame(LevelTimeManager.Instance.Timer,
-            LevelTimeManager.Instance.MaxTimer);
+        //ShowCompleteUIGame(LevelTimeManager.Instance.Timer,
+        //    LevelTimeManager.Instance.MaxTimer);
+        currentStar = GameManager.Instance.GetStarGame();
         SetScoreCompleteUI();
         animator.SetTrigger("Show");
     }
@@ -81,23 +85,50 @@ public class CompleteUI : MonoBehaviour
         imageTitle.GetComponent<Image>().color = gameLossColor;
         textStateGame.text = "GAME OVER";
         LevelTimeManager.Instance.SetupRunning(false);
-        ShowCompleteUIGame(LevelTimeManager.Instance.Timer,
-            LevelTimeManager.Instance.MaxTimer);
+        //ShowCompleteUIGame(LevelTimeManager.Instance.Timer,
+        //    LevelTimeManager.Instance.MaxTimer);
+        currentStar = 0;
         SetScoreCompleteUI();
+        animator.SetTrigger("Show");
     }
     public void OnClickNextLevel()
     {
         pauseUI.SetActiveOnClick(true);
         GameManager.Instance.isNextLevel = true;
         animator.SetTrigger("Hide");
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayOnClickButton_1();
+        }
+        //ResetStarUI();
     }
+
+    public void ResetStarUI()
+    {
+        //Debug.Log("ResetStart");
+        //for(int i = 0; i < stars.Count ; i++)
+        //{
+        //    RectTransform rt = stars[i].GetComponent<RectTransform>();
+        //    rt.localScale = new Vector3(0f, 0f, 1f); 
+        //}
+        for (int i = 0; i < 3; i++)
+        {
+            animatorsStar[i].SetBool("IsHide", true);
+        }
+    }
+
     public void LoadingGame()
     {
         pauseUI.SetActiveOnClick(true);
         showGameUI.Hide();
+        ResetStarUI();
     }
     public void LoadHome()
     {
+        if(SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayOnClickButton_1();
+        }
         SceneManager.LoadScene("GameLevelMap");
     }
 }

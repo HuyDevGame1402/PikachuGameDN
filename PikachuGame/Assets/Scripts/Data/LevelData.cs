@@ -9,4 +9,5 @@ public class LevelData : ScriptableObject
     public int[] PredefinedTiles; // có thể để -1 cho ô rỗng, hoặc ID hình
     public float timer;
     public int score;
+    public CandyType type;
 }
