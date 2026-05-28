@@ -2,7 +2,7 @@
 
 ![Unity](https://img.shields.io/badge/Unity-6-black?logo=unity)
 ![PlayFab](https://img.shields.io/badge/Microsoft-PlayFab-green)
-![Platform](https://img.shields.io/badge/Platform-PC%20%2F%20Mobile-lightgrey)
+![Platform](https://img.shields.io/badge/Platform-PC)
 ![Mode](https://img.shields.io/badge/Mode-Offline%20%2F%20Online-blue)
 
 Một tựa game giải đố kết hợp giữa **Pikachu cổ điển** và cơ chế **trượt ô theo hàng/cột kiểu Candy Crush Saga**, được phát triển trên nền tảng **Unity**. Người chơi vừa ghép đôi các ô hình ảnh theo luật Pikachu truyền thống, vừa thao tác trượt ngang/dọc để tạo ra các cặp ăn khớp — mang đến trải nghiệm mới mẻ, kích thích tư duy và giải trí cao. Tiến trình chơi được lưu lên cloud qua **Microsoft PlayFab**.
@@ -157,11 +157,9 @@ git clone https://github.com/[ten-tai-khoan]/PikachuGame.git
 **4. Cấu hình Build Settings**
 - Vào **File → Build Settings**, thêm Scene theo thứ tự:
 ```
-Assets/Scenes/Boot.unity
-Assets/Scenes/MainMenu.unity
-Assets/Scenes/MapSelect.unity
-Assets/Scenes/Gameplay.unity
-Assets/Scenes/Result.unity
+Assets/Scenes/LoginScene.unity
+Assets/Scenes/GameLevelMap.unity
+Assets/Scenes/GameScene.unity
 ```
 
 **5. Chạy và kiểm thử**
